@@ -1,0 +1,87 @@
+1.
+select distinct S.Id
+from Product P, Supplier S, Category C
+where P.SupplierId = S.Id
+	and P.CategoryId = C.Id
+	and C.CategoryName = 'Beverages';
+
+Results:
+Id
+1
+10
+16
+18
+20
+7
+12
+23
+
+2.
+select distinct S.CompanyName, S.Region
+from Product P, Supplier S, Category C
+where P.SupplierId = S.Id
+	and P.CategoryId = C.Id
+	and C.CategoryName = 'Condiments'
+INTERSECT
+select distinct S.CompanyName, S.Region
+from Product P, Supplier S, Category C
+where P.SupplierId = S.Id
+	and P.CategoryId = C.Id
+	and C.CategoryName = 'Confections';
+
+Results:
+CompanyName|Region
+Forêts d'érables|North America
+Pavlova, Ltd.|Victoria
+
+3.
+select O.Id, O.OrderDate, P.ProductName
+from 'Order' O, Customer C, Employee E, OrderDetail D, Product P
+where O.CustomerId = C.Id
+	and O.EmployeeId = E.Id
+	and C.CompanyName = 'Piccolo und mehr'
+	and E.FirstName = 'Michael'
+	and E.LastName = 'Suyama'
+	and O.Id = D.OrderId
+	and D.ProductId = P.Id;
+
+result attached as 'Northwind_Q3.txt'
+
+4a.
+select S.CompanyName, S.Id, count(O.ShipVia)
+from 'Order' O, Shipper S
+where O.ShipVia = S.Id
+group by O.ShipVia;
+
+Results:
+CompanyName|Id|count(O.ShipVia)
+Speedy Express|1|5572
+United Package|2|5592
+Federal Shipping|3|5654
+
+4b.
+select S.CompanyName, S.Id, strftime('%Y', ShippedDate),count(S.CompanyName)
+from 'Order' O, Shipper S
+where O.ShipVia = S.Id
+group by strftime('%Y', ShippedDate), S.Id;
+
+Results:
+CompanyName|Id|strftime('%Y', ShippedDate)|count(S.CompanyName)
+Speedy Express|1||4
+United Package|2||11
+Federal Shipping|3||6
+Speedy Express|1|2012|754
+United Package|2|2012|738
+Federal Shipping|3|2012|727
+Speedy Express|1|2013|1536
+United Package|2|2013|1556
+Federal Shipping|3|2013|1664
+Speedy Express|1|2014|1562
+United Package|2|2014|1623
+Federal Shipping|3|2014|1584
+Speedy Express|1|2015|1471
+United Package|2|2015|1450
+Federal Shipping|3|2015|1451
+Speedy Express|1|2016|245
+United Package|2|2016|214
+Federal Shipping|3|2016|222

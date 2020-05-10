@@ -1,0 +1,107 @@
+1. 
+select distinct genus, species
+from species
+where taxa = ‘Rodent’;
+
+Results:
+genus|species
+Ammospermophilus|harrisi
+Baiomys|taylori
+Dipodomys|merriami
+Dipodomys|ordii
+Dipodomys|spectabilis
+Dipodomys|sp.
+Neotoma|albigula
+Neotoma|sp.
+Onychomys|leucogaster
+Onychomys|torridus
+Onychomys|sp.
+Chaetodipus|baileyi
+Peromyscus|eremicus
+Perognathus|flavus
+Perognathus|hispidus
+Chaetodipus|intermedius
+Peromyscus|leucopus
+Peromyscus|maniculatus
+Chaetodipus|penicillatus
+Chaetodipus|sp.
+Reithrodontomys|fulvescens
+Reithrodontomys|megalotis
+Reithrodontomys|montanus
+Reithrodontomys|sp.
+Sigmodon|fulviventer
+Sigmodon|hispidus
+Sigmodon|ochrognathus
+Spermophilus|spilosoma
+Spermophilus|tereticaudus
+Sigmodon|sp.
+Rodent|sp.
+
+2.
+select distinct genus, species, taxa
+from surveys, species
+where surveys.year=1987 
+	and surveys.species_id = species.species_id;
+
+Results:
+genus|species|taxa
+Reithrodontomys|megalotis|Rodent
+Dipodomys|merriami|Rodent
+Peromyscus|maniculatus|Rodent
+Onychomys|leucogaster|Rodent
+Peromyscus|eremicus|Rodent
+Onychomys|torridus|Rodent
+Neotoma|albigula|Rodent
+Dipodomys|ordii|Rodent
+Amphispiza|bilineata|Bird
+Dipodomys|spectabilis|Rodent
+Pipilo|chlorurus|Bird
+Ammospermophilus|harrisi|Rodent
+Campylorhynchus|brunneicapillus|Bird
+Spermophilus|spilosoma|Rodent
+Chaetodipus|penicillatus|Rodent
+Sylvilagus|audubonii|Rabbit
+Sigmodon|hispidus|Rodent
+Crotalus|viridis|Reptile
+Calamospiza|melanocorys|Bird
+Rodent|sp.|Rodent
+Perognathus|flavus|Rodent
+Pipilo|sp.|Bird
+
+3.
+select hindfoot_length, weight
+from surveys S, plots P
+where S.plot_id = P.plot_id
+	and P.plot_type = 'Long-term Krat Exclosure';
+
+results attached as 'PortalProject_Q3.txt'
+
+4a.
+select species
+from plots P, surveys S, species E
+where P.plot_id = S.plot_id
+	and P.plot_type = 'Spectab exclosure'
+	and S.species_id = E.species_id
+group by species
+order by count(species) DESC
+limit 1;
+
+Results:
+species
+merriami
+
+4b.
+In year 1998:
+select species
+from plots P, surveys S, species E
+where P.plot_id = S.plot_id
+	and P.plot_type = 'Spectab exclosure'
+	and S.species_id = E.species_id
+	and year = 1998
+group by species
+order by count(species) DESC
+limit 1;
+
+Results:
+species
+merriami
